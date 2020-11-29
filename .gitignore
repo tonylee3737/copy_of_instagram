@@ -1,7 +1,7 @@
-__pycache__
-db.sqlite3
-/static
-/media
-.idea
-.vscode
-.db
+# __pycache__
+# db.sqlite3
+# /static
+# /media
+# .idea
+# .vscode
+# .db
