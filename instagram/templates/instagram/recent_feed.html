@@ -1,0 +1,45 @@
+{% extends 'instagram/layout.html' %}
+
+{% block content %}
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-sm-10 ">
+                {% comment %} {% include '_form.html' with naming="수정"%} {% endcomment %}
+                                <h5>최근 일주일 간 활동 기록 </h5>
+                                    <포스팅>
+                                    <hr>
+                                    {% for post in post_list %}
+                                    <a href = "{% url 'instagram:post_detail' post.pk %}"><img src = "{{post.photo.url}}" style="width: 20%"></a>
+                                    태그 : <span class="badge badge-primary" >{{post.caption}}</span> -
+                                        
+                                        {% if post.like_user_set.all %}
+                                            {% for like in post.like_user_set.all %}
+                                            <a href = "{% url 'instagram:user_page' like %}"> {{like}},
+                                            {% endfor %}
+                                            </a> 님이 좋아요를 눌렀습니다.<br>
+                                        {% else %}
+                                        <br>
+                                        {% endif %}
+
+                                    날짜:{{post.updated_at}}<br>
+
+                                    {% endfor %}
+            </div>
+        </div>
+        <hr>
+        <div class = "row">
+            <div class = "col-sm-10 ">
+                <좋아요 로그>
+                <div>
+                    
+                    {% for post in like_list %}
+                        <a href = "{% url 'instagram:post_detail' post.pk%}"><span class="badge badge-primary">{{ post }}</span></a> 에 좋아요를 눌렀습니다.<br>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+        </div>
+        
+     </div>
+{% endblock %}

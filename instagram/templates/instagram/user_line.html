@@ -1,0 +1,42 @@
+
+<div class ="d-flex p-2 mb-3">
+
+    <div class = "mr-2">
+        
+            {% if user.user_photo %}
+           <a href="{% url 'instagram:user_page' user.username %}"> <img src = "{{user.user_photo.url}}" style="width: 48px; height: 48px;" class="rounded-circle" />
+            {% else %}
+            None
+        {% endif %}
+    </div>
+    <div>
+    {{user.username}} <br>
+    <small class = "text-muted">{{user.name}}</small>
+    </div>
+    </div>
+
+    {% comment %} <div class = "card mb-3">
+        <div class = "card-header text-muted">
+            Stories
+        </div>
+        <div class = "card-body text-muted">
+            Stroies from people you follow will show up here<br>
+        </div>
+
+    </div> {% endcomment %}
+
+
+<div class = "card mb-2">
+    <div class = "card-header text-muted">
+        Suggestions for you
+    </div>
+    <div class = "card-body text-muted">
+        Stroies from people you follow will show up here<br>
+            {% for user_list in suggested_list %}
+                {% include "instagram/friend_user_line.html" with friend_user=user_list %}
+             {% empty %}   
+             추천 친구가 없습니다.
+            {% endfor %}
+
+    </div>
+</div>

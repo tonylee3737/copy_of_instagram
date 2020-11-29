@@ -1,0 +1,54 @@
+{% extends "instagram/layout.html" %}
+{% load static %}
+{% block content%}
+{% load thumbnail%}
+       <div class = "container">
+                <div class = "row ">
+                        <div class = "col-sm-12">
+                                instagram 환영합니다.
+                                <hr>
+                                <form method = "POST" action = "" class = 'mb-3'>
+                                {% csrf_token %}
+                                <input type = "text" name = 'q' > </input>
+                                <input type = 'submit' value = "search">
+                                </form>
+                                <a href = "{% url 'instagram:post_new'%}" class ="mb-3 btn btn-primary"> 새 포스팅 쓰기 </a>
+                        </div>
+                </div>
+                {% comment %} </div> {% endcomment %}
+                <hr>
+                <div class = "row">
+                        <div class = "col-sm-8">
+                                {% for post in post_list %}
+                                <div class = 'mb-3'>
+                                {% include 'instagram/_post_card.html'%}
+                                </div>
+                                {% empty %}
+                                포스팅이 없습니다. 
+                                {% endfor %}
+                        </div>
+                                        
+                        <div class = "col-sm-4">
+                                {% include "instagram/user_line.html"%}
+                        </div>
+                </div>
+                                
+                        <hr>
+                <div class = "row">
+                        <div class="container" style="text-align: center; margin: 0auto;" > 
+                                {% if post_list.previous_page_number > 0 %}
+                                <a href="?page={{ post_list.previous_page_number}} " > 이전</a>
+                                {% endif %}
+                                현재: {{page}}
+                                {% if post_list.has_next %}
+                                <a href="?page={{ post_list.next_page_number}} " > 다음</a>
+                                {% else %}        
+                                        마지막
+                                {% endif %}
+                        </div>
+                </div>
+        </div>        
+{% endblock %}
+
+
+

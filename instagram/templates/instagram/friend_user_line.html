@@ -1,0 +1,16 @@
+<div class = "d-flex mb-3">
+    <div class = "mr-3">
+        {% if friend_user.user_photo %}
+        <img src="{{friend_user.user_photo.url}}" style="width:32px; heigth:32px;" class="rounded-circle">
+        {% else %}
+        <img src="" style="width:32px; heigth:32px;" class="rounded-circle">(None)
+        {% endif %}
+        </div>
+    <div class ="">
+        <a href = "{% url 'instagram:user_page' friend_user.username %}">{{friend_user.username}}</a>
+    </div>
+    <div class ="ml-auto">
+        <a href = "{% url 'accounts:user_follow' friend_user.username %}">Follow</a>
+        {% comment %} <a href = "{% url 'accounts:user_unfollow' friend_user.username %}">Unfollow</a> {% endcomment %}
+    </div>
+    </div>

@@ -1,0 +1,8 @@
+django~=3.1.0
+django-bootstrap4
+easy-thumbnails
+pillow
+djangorestframework
+django-cors-headers
+djangorestframework-jwt
+django-filter

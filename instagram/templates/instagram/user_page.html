@@ -1,0 +1,51 @@
+{% extends 'instagram/layout.html' %} {% block content %} {% load thumbnail%}
+<div class="container">
+  <div class="row pt-5 pb-5">
+    <div class="col-sm-3" style="text-align: center">
+      {% if user.user_photo %}
+    <a href = "{{user.user_photo.url}}">  <img
+        src="{{user.user_photo.url}}"
+        class="rounded-circle"
+        style="width: 160px"
+      /></a>
+      {% else %} None {% endif %}
+    </div>
+    <div class="col-sm-9">
+      이름: {{user.username}} {% if request.user.username == user.username %}
+      <a href="{% url 'accounts:edit'%}" class="btn btn-secondary btn-sm"
+        >edit profile
+      </a>
+      {% else %} {% endif %} {% if is_follow %}
+      <a
+        href="{% url 'accounts:user_unfollow' user.username %}"
+        class="btn btn-secondary btn-sm"
+        >unfollow
+      </a>
+      {% elif request.user.username == user.username %} {% else %}
+      <a
+        href="{% url 'accounts:user_follow' user.username %}"
+        class="btn btn-secondary btn-sm"
+        >follow
+      </a>
+      {% endif %}
+      <hr />
+      포스팅: {{post_list_count}} 개 , 팔로워 : {{follower_count}}명 , 팔로윙 :
+      {{following_count}}명
+      <hr />
+    </div>
+  </div>
+  <div class="row mt-3">
+    {% for post in post_list %}
+    <div class="col-sm-4 mb-3">
+      <a href="{% url 'instagram:post_detail' post.pk %}">
+        <img
+          src="{{ post.photo.url }}"
+          alt="{{ post.caption }}"
+          style="width: 350px; height: 350px"
+        />
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

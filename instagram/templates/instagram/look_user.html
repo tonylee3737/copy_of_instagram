@@ -1,0 +1,39 @@
+{% extends 'instagram/layout.html' %}
+
+{% block content %}
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-sm-6 offset-sm-3">
+                {% comment %} {% include '_form.html' with naming="수정"%} {% endcomment %}
+                                <h5>찾고자 하는 사용자 이름을 검색해주세요 </h5>
+                                    <hr>
+                                <form method = "POST" action = "" class = 'mb-3'>
+                                    {% csrf_token %}
+                                    <input type = "text" name = 'q' value = '{{f_name}}'> </input>
+                                    <input type = 'submit' value = "search">
+                                </form>
+
+            </div>
+        </div>
+        <div class = "row">
+            <div class = "col-sm-6 offset-sm-3">
+                                {% if f_user %}
+                                    {% for u in f_user %}
+                                        <a href = "{% url 'instagram:user_page' u.username %}" class="btn btn-info">
+                                        {% if u.user_photo %}
+                                        <img src ="{{u.user_photo.url}}" style="width: 50%" >
+                                        {% else %} 
+                                            프로필사진없음
+                                        {% endif %}
+                                    <div>
+                                    {{ u.username }}
+                                    </div>
+                                    </a>
+                                    {% endfor %}
+                                {% else %}
+                                    검색된 결과가 없습니다. 
+                                {% endif %}
+            </div>
+        </div>    
+     </div>
+{% endblock %}

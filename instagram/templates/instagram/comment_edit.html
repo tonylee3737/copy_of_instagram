@@ -1,0 +1,11 @@
+{% extends 'instagram/layout.html' %} {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 offset-sm-3">
+      {% include '_form.html' with naming="수정"%} 
+      <a href="{% url 'instagram:comment_delete' comment_pk post_pk %}" class="btn btn-outline-danger btn-block mt-3">
+        댓글 삭제하기</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

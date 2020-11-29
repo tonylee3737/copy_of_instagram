@@ -1,0 +1,77 @@
+{% load instagram_tags %} {% load humanize %} {% load bootstrap4 %}
+<div class="card">
+      <div class="card-header">
+            {% if post.author.user_photo %}
+            <a href = "{{post.author.user_photo.url}}"><img
+              src="{{post.author.user_photo.url}}"
+              style="width: 48px; height: 48px"
+              class="rounded-circle"
+            /></a>
+            {% else %} None {% endif %}
+            <a href="{% url 'instagram:user_page' post.author.username %}">{{ post.author.username }}</a>
+        {% if request.user == post.author %}  포스팅 :
+        <a class="btn btn-info btn-sm"  href = "{% url 'instagram:post_edit' post.pk %}"><small>수정</small>  </a> /
+        <a class="btn btn-danger btn-sm" href = "{% url 'instagram:post_delete' post.pk %}"><small>삭제</small></a> 
+        {% else %}
+        {% endif %}
+      </div>
+  
+      <div class="card-body">
+        <a href = "{{post.photo.url}}"><img src="{{post.photo.url}}" style="width: 50%" /></a>
+          <div>
+            {{post.caption}}<br>
+            {% if post|is_like_user:user %}
+            <a
+              href="{% url 'instagram:post_dislike' post.pk %}"
+              style="color: inherit"
+            >
+              <i class="fa fa-heart"></i>
+            </a>
+            {% else %}
+
+            <a href="{% url 'instagram:post_like' post.pk %}" style="color: inherit">
+              <i class="fa fa-heart-o"></i>
+            </a>
+            {% endif %}
+          </div>
+          <div>
+            {% for comment in post.comment_set.all %}
+            <strong>{{ comment.author }}</strong>
+            {{ comment.message }} 
+            <small class="text-muted">{{ comment.created_at|naturaltime }}</small>
+            {% if request.user == comment.author %}
+            <a href = "{% url 'instagram:comment_edit' comment.pk comment.post.pk %}" class="btn btn-sm"><small>수정</small></a>
+            {% else %}
+            {% endif %}
+            <br>
+          {% endfor %}
+          </div>
+
+          <div>
+              {% for n in post.tag_set.all %}
+              <span class="badge badge-primary"> #{{ n }} </span>
+              {% endfor %}
+            <a href="{{ post.get_absolute_url }}" style="" class="text-muted">
+              <small> {{post.created_at|naturaltime}} </small> 
+            </a> 
+          </div>
+
+      </div>
+
+      <div class="card-footer">
+          <form
+            id="post-{{post.pk}}-comment-form"
+            method="POST"
+            action="{% url 'instagram:post_reply' post.pk %}"
+          >
+            {% csrf_token %} {% bootstrap_form comment_form %}
+            <a href="{% url 'instagram:post_reply' post.pk%}">
+              <input
+                type="submit"
+                value="댓글쓰기"
+                class="btn btn-primary btn-block"
+              /> 
+            </a>
+          </form>
+        </div>
+</div>
